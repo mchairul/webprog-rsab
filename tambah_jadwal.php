@@ -11,7 +11,7 @@ $dataMapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran");
 
 <div class="container">
     <h1>Tambah Jadwal</h1>
-    <form action="">
+    <form action="proses_tambah_jadwal.php" method="POST">
         <div class="mb-3">
             <label for="id_siswa">Siswa</label>
             <select name="id_siswa" id="id_siswa" class="form-select" required>
@@ -35,6 +35,10 @@ $dataMapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran");
         <div class="mb-3">
             <label for="jadwal">Jadwal</label>
             <input type="datetime-local" name="jadwal" id="jadwal" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">Tambah</button>
         </div>
     </form>
 </div>

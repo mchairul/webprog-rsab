@@ -15,6 +15,9 @@
         <li class="nav-item">
           <a class="nav-link" href="list_jadwal.php">Jadwal Kelas</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="list_file.php">File Mata Pelajaran</a>
+        </li>
     </div>
   </div>
 </nav>

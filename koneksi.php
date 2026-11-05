@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $koneksi = mysqli_connect('localhost', 'root', 'root', 'sekolah_abc');
 

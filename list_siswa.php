@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
+    header('Location: index.php');
+    exit();
+}
 
 include 'koneksi.php';
 
@@ -8,6 +13,12 @@ $dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa");
 <?php include 'partial/header.php' ?>
 <?php include 'partial/nav.php' ?>
     <div class="container">
+        <?php if (cekFlash('sukses')) { ?>
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <div><?= showFlash('sukses') ?></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php } ?>
         <h1>Siswa</h1>
         <a href="tambah_siswa.php" class="btn btn-primary">Tambah Siswa</a>
         <table class="table">

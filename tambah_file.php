@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
+    header('Location: index.php');
+    exit();
+}
 include 'koneksi.php';
 
 $dataMapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran");

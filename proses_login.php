@@ -1,8 +1,29 @@
 <?php
+session_start();
 include 'koneksi.php';
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = postData('username');
+$password = postData('password');
+
+$validated = true;
+
+// cek apakah username kosong
+if ($username == '') {
+    // username tidak lolos validation
+    $validated = false;
+    buatFlash('username', 'harap isi username');
+}
+
+if ($password == '') {
+    // username tidak lolos validation
+    $validated = false;
+    buatFlash('password', 'harap isi password');
+}
+
+if (! $validated) {
+    header('Location: index.php');
+    exit();
+}
 
 $getUser = mysqli_query($koneksi, "SELECT * FROM users WHERE username = '$username'");
 
@@ -23,5 +44,6 @@ if ($jumlahUser > 0) {
     }
 }
 
+buatFlash('username', 'username atau password salah');
 header('Location: index.php');
 exit();

@@ -18,6 +18,9 @@
         <li class="nav-item">
           <a class="nav-link" href="list_file.php">File Mata Pelajaran</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php">Logout</a>
+        </li>
     </div>
   </div>
 </nav>

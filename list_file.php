@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
+    header('Location: index.php');
+    exit();
+}
 include 'koneksi.php';
 
 $dataFile = mysqli_query($koneksi, "SELECT mata_pelajaran.kode_mata_pelajaran, mata_pelajaran.nama, file_mata_pelajaran.*

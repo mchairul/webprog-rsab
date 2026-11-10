@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
+    header('Location: index.php');
+    exit();
+}
 include 'koneksi.php';
 $id = $_GET['id'];
 $dataFile = mysqli_query($koneksi, "SELECT * FROM file_mata_pelajaran WHERE id = $id");

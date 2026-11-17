@@ -1,10 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
 
 $id = postData('id');
 $idSiswa = postData('id_siswa');
@@ -30,7 +29,7 @@ if ($jadwal == '') {
     buatFlash('jadwal', 'Harap Isi Jadwal');
 }
 
-if (! validationDate($jadwal, 'Y-m-d H:i:s', date('Y-m-d H:i:s'))) {
+if (! validationDate($jadwal, 'Y-m-d H:i:s')) {
     $validated = false;
     buatFlash('jadwal', 'Format Jadwal Salah');
 }

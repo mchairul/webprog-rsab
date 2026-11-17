@@ -1,10 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
 
 $id = getData('id');
 if ($id == '') {
@@ -37,6 +36,7 @@ $dataMapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran");
 <div class="container">
     <h1>Tambah Jadwal</h1>
     <form action="proses_ubah_jadwal.php" method="POST">
+        <input type="hidden" name="_token" value="<?= getCsrfToken() ?>">
         <input type="hidden" name="id" value="<?= $jadwal['id'] ?>">
         <div class="mb-3">
             <label for="id_siswa">Siswa</label>

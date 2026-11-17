@@ -1,10 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
 
 $dataFile = mysqli_query($koneksi, "SELECT mata_pelajaran.kode_mata_pelajaran, mata_pelajaran.nama, file_mata_pelajaran.*
 FROM file_mata_pelajaran
@@ -32,8 +31,8 @@ JOIN mata_pelajaran ON file_mata_pelajaran.id_mata_pelajaran = mata_pelajaran.id
             <tr>
                 <td><?= $file['kode_mata_pelajaran'] ?></td>
                 <td><?= $file['nama'] ?></td>
-                <td><?= $file['nama_file'] ?></td>
-                <td><?= $file['keterangan'] ?></td>
+                <td><?= xssClean($file['nama_file']) ?></td>
+                <td><?= xssClean($file['keterangan']) ?></td>
                 <td>
                     <a href="ubah_file.php?id=<?= $file['id'] ?>" class="btn btn-warning">Ubah</a>
                     <button class="btn btn-danger" onclick="deleteFile('<?= $file['id'] ?>')">Hapus</button>

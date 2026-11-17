@@ -1,10 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
 
 $nisn = postData('nisn');
 $nama = postData('nama');
@@ -54,6 +53,8 @@ if (! $validated) {
 }
 
 $query = "INSERT INTO siswa (nisn, nama, tanggal_lahir, alamat) VALUES ('$nisn', '$nama', '$tanggal_lahir', '$alamat')";
+// var_dump($query);
+// exit;
 
 $simpan = mysqli_query($koneksi, $query);
 if ($simpan) {

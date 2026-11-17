@@ -1,6 +1,11 @@
 <?php
-session_start();
 include 'koneksi.php';
+// jika ada session
+if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
+    header('Location: list_siswa.php');
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +27,7 @@ include 'koneksi.php';
             <div class="col-md-6 login-form mt-5 p-5">
                 <h1>Login</h1>
                 <form action="proses_login.php" method="post">
+                    <input type="hidden" name="_token" value="<?= getCsrfToken() ?>">
                     <div class="mb-3">
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username"

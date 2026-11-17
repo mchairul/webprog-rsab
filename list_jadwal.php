@@ -1,10 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
 
 $query = "SELECT siswa.nisn, siswa.nama as nama_siswa, mata_pelajaran.kode_mata_pelajaran, mata_pelajaran.nama as nama_mapel, jadwal_kelas.*
 FROM jadwal_kelas

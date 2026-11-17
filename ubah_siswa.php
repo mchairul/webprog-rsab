@@ -1,11 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-
-include 'koneksi.php';
 
 $id = getData('id');
 if ($id == '') {
@@ -29,6 +27,7 @@ $siswa = mysqli_fetch_assoc($getSiswa);
 <div class="container">
     <h1>Ubah Siswa</h1>
     <form action="proses_ubah_siswa.php" method="post">
+        <input type="hidden" name="_token" value="<?= getCsrfToken() ?>">
         <input type="hidden" name="id" value="<?= $siswa['id'] ?>">
         <div class="mb-3">
             <label for="nisn">NISN</label>

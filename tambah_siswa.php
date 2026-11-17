@@ -1,10 +1,10 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
+
 ?>
 
 
@@ -14,6 +14,7 @@ include 'koneksi.php';
 <div class="container">
     <h1>Tambah Siswa</h1>
     <form action="proses_simpan_siswa.php" method="POST">
+        <input type="hidden" name="_token" value="<?= getCsrfToken() ?>">
         <div class="mb-3">
             <label for="nisn">NISN</label>
             <input type="text" name="nisn" id="nisn"

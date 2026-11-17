@@ -4,12 +4,13 @@ define('FLASH_PREFIX', 'flash_');
 // mengambil nilai post
 function postData(string $nama): string
 {
+    global $koneksi;
     if (! isset($_POST[$nama])) {
         return '';
     }
 
     // mengembalikan dengan nilai yg sudah ditrim
-    return trim($_POST[$nama]);
+    return mysqli_real_escape_string($koneksi, trim($_POST[$nama]));
 }
 
 // mengambil nilai get
@@ -54,6 +55,9 @@ function validationDate(string $date, $format = 'Y-m-d H:i:s', $minDate = '1990-
     if ($d && $d->format($format) == $date) {
         $tanggal1 = new DateTime($date);
         $tanggal2 = new DateTime($minDate);
+        // var_dump($tanggal1);
+        // var_dump($tanggal2);
+        // exit();
         if ($tanggal1 >= $tanggal2) {
             return true;
         } else {

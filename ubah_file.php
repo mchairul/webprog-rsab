@@ -1,10 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
 $id = $_GET['id'];
 $dataFile = mysqli_query($koneksi, "SELECT * FROM file_mata_pelajaran WHERE id = $id");
 $file = mysqli_fetch_assoc($dataFile);
@@ -19,6 +18,7 @@ $dataMapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran");
 <div class="container">
     <h1>Tambah File</h1>
     <form action="proses_ubah_file.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_token" value="<?= getCsrfToken() ?>">
         <input type="hidden" name="id" value="<?= $file['id'] ?>">
         <div class="mb-3">
             <label for="id_mata_pelajaran">Mata Pelajaran</label>

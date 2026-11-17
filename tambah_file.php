@@ -1,10 +1,9 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-include 'koneksi.php';
 
 $dataMapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran");
 ?>
@@ -16,6 +15,7 @@ $dataMapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran");
 <div class="container">
     <h1>Tambah File</h1>
     <form action="proses_tambah_file.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_token" value="<?= getCsrfToken() ?>">
         <div class="mb-3">
             <label for="id_mata_pelajaran">Mata Pelajaran</label>
             <select name="id_mata_pelajaran" id="id_mata_pelajaran" class="form-select" required>

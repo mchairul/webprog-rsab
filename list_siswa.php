@@ -1,13 +1,25 @@
 <?php
-session_start();
+include 'koneksi.php';
 if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
 
-include 'koneksi.php';
+$perHalaman = 5;
+// cek halaman
+if (isset($_GET['halaman'])) {
+    $halaman = (int) $_GET['halaman'];
+} else {
+    $halaman = 1;
+}
+// cek halaman awal
+if ($halaman > 1) {
+    $halamanAwal = ($halaman * $perHalaman) - $perHalaman;
+} else {
+    $halamanAwal = 0;
+}
 
-$dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa");
+$dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa LIMIT $halamanAwal, $perHalaman");
 ?>
 
 <?php include 'partial/header.php' ?>
@@ -34,10 +46,10 @@ $dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa");
             <tbody>
                 <?php while ($siswa = mysqli_fetch_assoc($dataSiswa)) { ?>
                 <tr>
-                    <td><?= $siswa['nisn'] ?></td>
-                    <td><?= $siswa['nama'] ?></td>
-                    <td><?= $siswa['tanggal_lahir'] ?></td>
-                    <td><?= $siswa['alamat'] ?></td>
+                    <td><?= xssClean($siswa['nisn']) ?></td>
+                    <td><?= xssClean($siswa['nama']) ?></td>
+                    <td><?= xssClean($siswa['tanggal_lahir']) ?></td>
+                    <td><?= xssClean($siswa['alamat']) ?></td>
                     <td>
                         <a href="ubah_siswa.php?id=<?= $siswa['id'] ?>" class="btn btn-warning">Ubah</a>
                         <button type="button" class="btn btn-danger" onclick="hapusSiswa('<?= $siswa['id'] ?>')">Hapus</button>
@@ -46,6 +58,17 @@ $dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa");
                 <?php } ?>
             </tbody>
         </table>
+        <nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item"><a href="#" class="page-link">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item active">
+      <a class="page-link" href="#" aria-current="page">2</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav>
     </div>
     
     <script>

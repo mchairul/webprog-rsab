@@ -10,7 +10,7 @@ function postData(string $nama): string
     }
 
     // mengembalikan dengan nilai yg sudah ditrim
-    return mysqli_real_escape_string($koneksi, trim($_POST[$nama]));
+    return pg_escape_string($koneksi, trim($_POST[$nama]));
 }
 
 // mengambil nilai get

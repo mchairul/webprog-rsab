@@ -12,10 +12,11 @@ session_start();
 
 session_regenerate_id(true);
 
-$koneksi = mysqli_connect('localhost', 'root', 'root', 'sekolah_abc');
-
-if ($koneksi->connect_error) {
-    die('Error konek ke Database : ' . $koneksi->connect_error);
+try {
+    $koneksi = pg_connect('host=localhost port=5432 dbname=sekolah user=postgres password=root');
+} catch (Exception $e) {
+    die('koneksi error: ' . $e->getMessage());
 }
+
 
 include 'systems/loader.php';

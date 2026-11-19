@@ -35,9 +35,9 @@ if ($alamat == '') {
 }
 
 // cek nisn
-$getNisn = mysqli_query($koneksi, "SELECT * FROM siswa WHERE nisn = '$nisn' AND id != $id");
+$getNisn = pg_query($koneksi, "SELECT * FROM siswa WHERE nisn = '$nisn' AND id != $id");
 // jika nisn sudah ada
-if (mysqli_num_rows($getNisn) > 0) {
+if (pg_num_rows($getNisn) > 0) {
     $validated = false;
     buatFlash('nisn', 'NISN sudah ada');
 }
@@ -54,7 +54,7 @@ if (! $validated) {
 }
 
 $query = "UPDATE siswa SET nisn = '$nisn', nama = '$nama', tanggal_lahir = '$tanggalLahir', alamat = '$alamat' WHERE id = $id ";
-$ubah = mysqli_query($koneksi, $query);
+$ubah = pg_query($koneksi, $query);
 
 header('Location: list_siswa.php');
 exit();

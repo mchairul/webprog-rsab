@@ -34,9 +34,9 @@ if ($alamat == '') {
 }
 
 // cek nisn
-$getNisn = mysqli_query($koneksi, "SELECT * FROM siswa WHERE nisn = '$nisn'");
+$getNisn = pg_query($koneksi, "SELECT * FROM siswa WHERE nisn = '$nisn'");
 // jika nisn sudah ada
-if (mysqli_num_rows($getNisn) > 0) {
+if (pg_num_rows($getNisn) > 0) {
     $validated = false;
     buatFlash('nisn', 'NISN sudah ada');
 }
@@ -56,7 +56,7 @@ $query = "INSERT INTO siswa (nisn, nama, tanggal_lahir, alamat) VALUES ('$nisn',
 // var_dump($query);
 // exit;
 
-$simpan = mysqli_query($koneksi, $query);
+$simpan = pg_query($koneksi, $query);
 if ($simpan) {
     buatFlash('sukses', 'Berhasil Tambah Siswa');
 } else {

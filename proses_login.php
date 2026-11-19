@@ -24,14 +24,14 @@ if (! $validated) {
     exit();
 }
 
-$getUser = mysqli_query($koneksi, "SELECT * FROM users WHERE username = '$username'");
+$getUser = pg_query($koneksi, "SELECT * FROM users WHERE username = '$username'");
 
 // ambil jumlah baris dari hasil query
-$jumlahUser = mysqli_num_rows($getUser);
+$jumlahUser = pg_num_rows($getUser);
 
 // cek apakah ada
 if ($jumlahUser > 0) {
-    $user = mysqli_fetch_assoc($getUser);
+    $user = pg_fetch_assoc($getUser);
 
     //cek password
     if (password_verify($password, $user['password'])) {

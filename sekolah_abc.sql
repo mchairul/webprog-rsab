@@ -2,10 +2,10 @@
 -- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 05, 2026 at 09:10 AM
--- Server version: 12.2.2-MariaDB
--- PHP Version: 8.4.21
+-- Host: localhost:8889
+-- Generation Time: Nov 19, 2026 at 06:30 AM
+-- Server version: 8.0.44
+-- PHP Version: 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `file_mata_pelajaran` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `id_mata_pelajaran` int(11) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
+  `id_mata_pelajaran` int UNSIGNED NOT NULL,
   `nama_file` varchar(255) NOT NULL,
   `keterangan` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `file_mata_pelajaran`
+--
+
+INSERT INTO `file_mata_pelajaran` (`id`, `id_mata_pelajaran`, `nama_file`, `keterangan`) VALUES
+(5, 1, 'Syllabus Node JS-6afbfc1fbcbb3.pdf', 'test'),
+(6, 1, 'Syllabus Node JS-6afc02c5c931f.pdf', '<script> var body = document.body body.innerHTML = \"<h1>Hello web mu hilang konten nya</h1>\" </script>');
 
 -- --------------------------------------------------------
 
@@ -41,9 +49,9 @@ CREATE TABLE `file_mata_pelajaran` (
 --
 
 CREATE TABLE `jadwal_kelas` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `id_siswa` int(10) UNSIGNED DEFAULT NULL,
-  `id_mata_pelajaran` int(10) UNSIGNED DEFAULT NULL,
+  `id` int UNSIGNED NOT NULL,
+  `id_siswa` int UNSIGNED DEFAULT NULL,
+  `id_mata_pelajaran` int UNSIGNED DEFAULT NULL,
   `jadwal` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -53,7 +61,9 @@ CREATE TABLE `jadwal_kelas` (
 
 INSERT INTO `jadwal_kelas` (`id`, `id_siswa`, `id_mata_pelajaran`, `jadwal`) VALUES
 (2, 8, 1, '2026-11-06 13:30:00'),
-(3, 8, 2, '2026-11-09 13:00:00');
+(3, 8, 2, '2026-11-09 13:00:00'),
+(5, 6, 2, '2026-11-18 11:11:00'),
+(7, 8, 1, '2026-11-17 19:00:00');
 
 -- --------------------------------------------------------
 
@@ -62,7 +72,7 @@ INSERT INTO `jadwal_kelas` (`id`, `id_siswa`, `id_mata_pelajaran`, `jadwal`) VAL
 --
 
 CREATE TABLE `mata_pelajaran` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `kode_mata_pelajaran` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -82,7 +92,7 @@ INSERT INTO `mata_pelajaran` (`id`, `kode_mata_pelajaran`, `nama`) VALUES
 --
 
 CREATE TABLE `siswa` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `nisn` varchar(255) DEFAULT NULL,
   `nama` varchar(255) NOT NULL,
   `tanggal_lahir` date NOT NULL,
@@ -95,7 +105,24 @@ CREATE TABLE `siswa` (
 
 INSERT INTO `siswa` (`id`, `nisn`, `nama`, `tanggal_lahir`, `alamat`) VALUES
 (6, 'ABC125', 'budi ubah', '2000-12-25', 'jakarta'),
-(8, 'ABC11', 'iwan', '2004-12-11', 'jakarta');
+(8, 'ABC11', 'iwan', '2004-12-11', 'jakarta'),
+(13, '123ABC', 'andre', '2001-09-30', 'bandung'),
+(14, '123123zbc', 'nisa', '2005-01-01', 'jakarta'),
+(15, '123QWE123QWE', 'budi', '2009-09-01', 'jakarta'),
+(18, '122ACC', 'nisa', '2022-03-12', '<script>\r\nvar body = document.body\r\nbody.innerHTML = \"<h1>Hello web mu hilang konten nya</h1>\"\r\n</script>'),
+(19, '$nisn', '$2y$10$K4o8mGOEQydIxdWXDhpVCuYSLOqyeRmGqvGSkCnqy3540KPCk3dI6', '2026-01-01', '$alamat'),
+(20, '1231qqqqq', '$2y$10$K4o8mGOEQydIxdWXDhpVCuYSLOqyeRmGqvGSkCnqy3540KPCk3dI6', '2026-01-01', '$alamat'),
+(21, '12311FFF', '(select password from users LIMIT 1)', '2002-11-11', 'jakarta'),
+(23, '12312312312311d', 'nama', '2022-01-01', '$alamat'),
+(25, '12312312312311x', 'nama', '2022-01-01', '$alamat'),
+(27, '12312312312311y', 'nama', '2022-01-01', '$alamat'),
+(28, '1z1x', 'budi', '2022-09-01', '); DELETE FROM users; --'),
+(30, 'w', 'w', '2009-01-01', ''),
+(32, 'w1', 'w', '2009-01-01', ''),
+(33, '123', '123', '2022-01-12', ''),
+(34, '11', '11', '2022-09-01', ''),
+(36, '12', '11', '2022-09-01', ''),
+(37, '123123123d', 'bud', '2022-08-01', '');
 
 -- --------------------------------------------------------
 
@@ -104,17 +131,17 @@ INSERT INTO `siswa` (`id`, `nisn`, `nama`, `tanggal_lahir`, `alamat`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(10) NOT NULL,
+  `id` int NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 'admin', '$2y$10$K4o8mGOEQydIxdWXDhpVCuYSLOqyeRmGqvGSkCnqy3540KPCk3dI6');
+(2, 'admin', '$2y$10$LlpMc4/RGX9tOGVuHXk6VuzxdNULKEZn7sSovEjot/x4m2g6bSNFO');
 
 --
 -- Indexes for dumped tables
@@ -164,31 +191,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `file_mata_pelajaran`
 --
 ALTER TABLE `file_mata_pelajaran`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `jadwal_kelas`
 --
 ALTER TABLE `jadwal_kelas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

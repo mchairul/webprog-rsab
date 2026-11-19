@@ -11,14 +11,14 @@ if ($id == '') {
     exit();
 }
 
-$getSiswa = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id = $id");
+$getSiswa = pg_query($koneksi, "SELECT * FROM siswa WHERE id = $id");
 
-if (mysqli_num_rows($getSiswa) < 1) {
+if (pg_num_rows($getSiswa) < 1) {
     header('Location: list_siswa.php');
     exit();
 }
 
-$siswa = mysqli_fetch_assoc($getSiswa);
+$siswa = pg_fetch_assoc($getSiswa);
 ?>
 
 <?php include 'partial/header.php'; ?>

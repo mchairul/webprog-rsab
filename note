@@ -1,0 +1,18 @@
+CSRF
+XSS
+SQL injection
+
+session security
+
+session activity
+
+
+
+
+<script>
+var body = document.body
+body.innerHTML = "<h1>Hello web mu hilang konten nya</h1>"
+</script>
+
+
+(select password from users LIMIT 1)

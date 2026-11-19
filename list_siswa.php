@@ -5,6 +5,7 @@ if (! isset($_SESSION['id']) || ! isset($_SESSION['username'])) {
     exit();
 }
 
+
 $perHalaman = 5;
 // cek halaman
 if (isset($_GET['halaman'])) {
@@ -12,14 +13,39 @@ if (isset($_GET['halaman'])) {
 } else {
     $halaman = 1;
 }
+
+$prevoius = $halaman - 1;
+$next = $halaman + 1;
+
 // cek halaman awal
 if ($halaman > 1) {
     $halamanAwal = ($halaman * $perHalaman) - $perHalaman;
 } else {
     $halamanAwal = 0;
 }
+$keyword = '';
+if (isset($_POST['keyword'])) {
+    // clean data
+    $keyword = postData('keyword');
 
-$dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa LIMIT $halamanAwal, $perHalaman");
+    $queryTotal = "SELECT COUNT(id) AS jumlah FROM siswa WHERE 
+        nisn LIKE '%$keyword%' OR nama LIKE '%$keyword%'";
+    $queryData = "SELECT * FROM siswa
+        WHERE 
+        nisn LIKE '%$keyword%' OR nama LIKE '%$keyword%'
+        LIMIT $perHalaman OFFSET $halamanAwal";
+} else {
+    $queryTotal = "SELECT COUNT(id) AS jumlah FROM siswa";
+    $queryData = "SELECT * FROM siswa LIMIT $perHalaman OFFSET $halamanAwal";
+}
+
+$getTotalData = pg_query($koneksi, $queryTotal);
+$rowTotalData = pg_fetch_assoc($getTotalData);
+$totalData = $rowTotalData['jumlah'];
+
+$totalHalaman = ceil($totalData / $perHalaman);
+
+$dataSiswa = pg_query($koneksi, $queryData);
 ?>
 
 <?php include 'partial/header.php' ?>
@@ -31,8 +57,18 @@ $dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa LIMIT $halamanAwal, $pe
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <?php } ?>
-        <h1>Siswa</h1>
-        <a href="tambah_siswa.php" class="btn btn-primary">Tambah Siswa</a>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Siswa</h1>
+            <a href="tambah_siswa.php" class="btn btn-primary">Tambah Siswa</a>
+        </div>
+        <form action="?" method="post">
+            <input type="hidden" name="_token" value="<?= getCsrfToken() ?>">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Cari Data" name="keyword" value="<?php if($keyword != '') { echo $keyword; } ?>">
+                <button class="btn btn-outline-secondary" type="submit" id="button-cari">Cari</button>
+            </div>
+
+        </form>
         <table class="table">
             <thead>
                 <tr>
@@ -44,7 +80,7 @@ $dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa LIMIT $halamanAwal, $pe
                 </tr>
             </thead>
             <tbody>
-                <?php while ($siswa = mysqli_fetch_assoc($dataSiswa)) { ?>
+                <?php while ($siswa = pg_fetch_assoc($dataSiswa)) { ?>
                 <tr>
                     <td><?= xssClean($siswa['nisn']) ?></td>
                     <td><?= xssClean($siswa['nama']) ?></td>
@@ -59,16 +95,23 @@ $dataSiswa = mysqli_query($koneksi, "SELECT * FROM siswa LIMIT $halamanAwal, $pe
             </tbody>
         </table>
         <nav aria-label="...">
-  <ul class="pagination">
-    <li class="page-item"><a href="#" class="page-link">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item active">
-      <a class="page-link" href="#" aria-current="page">2</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-  </ul>
-</nav>
+            <ul class="pagination">
+                <li class="page-item <?php if($halaman == 1) { echo 'disabled'; } ?>"><a href="?halaman=<?= $prevoius ?>" class="page-link">Previous</a></li>
+
+                <?php for ($i=1; $i <= $totalHalaman; $i++) { ?>
+                
+                <li class="page-item <?php if($halaman == $i) { echo 'active'; } ?>">
+                    <a class="page-link " href="?halaman=<?= $i ?>">
+                        <?= $i ?>
+                    </a>
+                </li>
+
+                <?php } ?>
+                
+
+                <li class="page-item <?php if($halaman == $totalHalaman) { echo 'disabled'; } ?>"><a class="page-link" href="?halaman=<?= $next ?>">Next</a></li>
+            </ul>
+        </nav>
     </div>
     
     <script>

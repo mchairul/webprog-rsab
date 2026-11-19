@@ -32,7 +32,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username"
                             class="form-control <?php if(cekFlash('username')) { echo 'is-invalid'; } ?>"
-                            placeholder="Input Username" required>
+                            placeholder="Input Username" autocomplete="off" required>
                         <div class="invalid-feedback">
                             <?php if(cekFlash('username')) { ?>
                             <p><?= showFlash('username') ?></p>
